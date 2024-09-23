@@ -15,7 +15,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
     //   fontSize: 144,
     //   content: 'This is the Kaukhia font'
     // });
-    
+
     let background = new Path.Rectangle(new Point(0,0),view.size);
     background.fillColor = Globals.palette[0];
 
@@ -33,7 +33,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
       loadingCircs.push(circ);
     }
     for(let i=0; i<8; i++){
-      loadingCircs[i].tween(500*i+1).then(_=>{
+      delay(500*i, _=>{
         loadingCircs[i].tween({
           scaling: 0.0001
         }, {

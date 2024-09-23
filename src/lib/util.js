@@ -7,9 +7,6 @@ const Globals = {
   ]
 };
 
-// let palette = [
-//   new Color('#fff923'),
-//   new Color('#ff8d12'),
-//   new Color('#568b24'),
-//   new Color('#282828'),
-// ];
+function delay(seconds, func) {
+  (new paper.Path()).tween(seconds+1).then(func);
+}
