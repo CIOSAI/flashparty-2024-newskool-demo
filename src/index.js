@@ -2,28 +2,25 @@ window.onload = function() {
 	paper.setup('myCanvas');
 }
 
-let check = (h, s, b) => {
-  console.log(h);
-  console.log(s);
-  console.log(b);
-}
-
 let canvas = document.querySelector('#myCanvas');
 canvas.addEventListener('fullscreenchange', ()=>{
   with (paper) {
-    check(...oklch2rgb([0.5,1,0.5]));
-    let sillyColor = new Color(...oklch2rgb([0.5,1,0.5]));
+    let background = new Path.Rectangle(new Point(0,0),view.size);
+    background.fillColor = Globals.palette[3];
+
+    let foregroundLayer = new Layer();
     let typo = new PointText({
-      fillColor: sillyColor,
+      fillColor: Globals.palette[0],
       fontFamily: 'Kaukhia',
       content: 'This is the Kaukhia font'
     });
     let path = new Path();
-		path.strokeColor = sillyColor;
+		path.strokeColor = Globals.palette[1];
 		let start = new Point(100, 100);
 		path.moveTo(start);
 		path.lineTo(start.add([ 200, -50 ]));
-		view.draw();
+		
+    view.draw();
 		view.onFrame = function(event) {
       let TIME = event.time;
       let FRAMECOUNT = event.count;
