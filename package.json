@@ -1,0 +1,14 @@
+{
+  "name": "flash-24-paper",
+  "version": "1.0.0",
+  "description": "demo for flash demoparty 2024",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "CIOSAI_tw",
+  "license": "CC BY",
+  "dependencies": {
+    "paper": "^0.12.18"
+  }
+}

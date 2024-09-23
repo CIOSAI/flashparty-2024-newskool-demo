@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Kaukhia;
+    src: url(src/assets/Kaukhia_release_1.woff);
+  }
+
+html,
+body {
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+}

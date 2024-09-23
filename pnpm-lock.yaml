@@ -1,0 +1,14 @@
+lockfileVersion: 5.4
+
+specifiers:
+  paper: ^0.12.18
+
+dependencies:
+  paper: 0.12.18
+
+packages:
+
+  /paper/0.12.18:
+    resolution: {integrity: sha512-ZSLIEejQTJZuYHhSSqAf4jXOnii0kPhCJGAnYAANtdS72aNwXJ9cP95tZHgq1tnNpvEwgQhggy+4OarviqTCGw==}
+    engines: {node: '>=8.0.0'}
+    dev: false
