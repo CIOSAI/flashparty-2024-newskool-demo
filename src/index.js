@@ -22,9 +22,9 @@ canvas.addEventListener('fullscreenchange', ()=>{
     let foregroundLayer = new Layer();
 
     let loadingCircs = [];
-    for(let i=0; i<8; i++){
+    for(let i=0; i<10; i++){
       let circ = new Path.Circle({
-        center: (new Point(1+i,1)).multiply(view.size.height/16),
+        center: (new Point(1+i,0)).multiply(view.size.height/16),
         radius: view.size.height/32,
         scaling: 0.00001,
         fillColor: Globals.palette[3],
@@ -32,16 +32,31 @@ canvas.addEventListener('fullscreenchange', ()=>{
       });
       loadingCircs.push(circ);
     }
-    for(let i=0; i<8; i++){
-      delay(500*i, _=>{
-        loadingCircs[i].tween({
-          scaling: 0.0001
-        }, {
-          scaling: 1
-        }, {
-          duration: 500, 
-          easing: 'easeOutQuint'
-        });
+    for(let j=0; j<4; j++){
+      delay(Globals.BEAT_DUR*10*j, _=>{
+        for(let i=0; i<10; i++){
+          loadingCircs[i].position.y += view.size.height/16;
+          loadingCircs[i].visible = false;
+          delay(Globals.BEAT_DUR*i, _=>{
+            loadingCircs[i].tween({
+              visible: false
+            }, {
+              visible: true
+            }, {
+              duration: 1
+            });
+          });
+          delay(Globals.BEAT_DUR*i, _=>{
+            loadingCircs[i].tween({
+              scaling: 0.0001
+            }, {
+              scaling: 1
+            }, {
+              duration: Globals.BEAT_DUR, 
+              easing: 'easeOutQuint'
+            });
+          });
+        }
       });
     }
 
