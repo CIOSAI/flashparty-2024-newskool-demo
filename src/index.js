@@ -180,7 +180,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
       bee.fillColor = Globals.palette[1+(~~(Math.sin(i*66.463)*2+1))%3];
       beehive.push(bee);
     }
-    delay(Globals.BEAT_DUR*loadingCircAmt*16, _=>{
+    delay(Globals.BEAT_DUR*loadingCircAmt*16 *0, _=>{
       let noiseMap = (p, t) => {
         let s = n => Math.sin(n*TAU)*.5+.5;
         let acc = 0;
@@ -191,8 +191,8 @@ canvas.addEventListener('fullscreenchange', ()=>{
         let t_offset = ~~(s(p.x*.01+s(s(p.x*.01)+p.y*4))*5);
         let f_t = (t*loadingCircAmt*8/5 + t_offset/5)%1;
 
-        acc += ease(f_t);
-        return acc/3;
+        acc += ease(f_t)*.5;
+        return acc/2.5;
       };
       for(let i=0; i<beeAmt; i++) {
         beehive[i].visible = true;
@@ -207,7 +207,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
       }
     });
 
-    
+
     //, "Hicelo con paper.js", "La fuente llama Kaukhia"
 
     view.draw();
