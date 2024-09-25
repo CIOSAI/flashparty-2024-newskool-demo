@@ -201,6 +201,13 @@ canvas.addEventListener('fullscreenchange', ()=>{
         };
       }
     });
+    delay(Globals.BEAT_DUR*loadingCircAmt*(16+8), _=>{
+      for(let i=0; i<beeAmt; i++) {
+        beehive[i].visible = false;
+      }
+    });
+
+    
     //, "Hicelo con paper.js", "La fuente llama Kaukhia"
 
     view.draw();
