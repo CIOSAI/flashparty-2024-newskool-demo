@@ -71,9 +71,12 @@ canvas.addEventListener('fullscreenchange', ()=>{
     pseudoCube.strokeColor = Globals.palette[3];
     pseudoCube.strokeWidth = view.size.height/96;
     pseudoCube.visible = false;
+    let otherCubeAmt = 15;
+    let otherCubes = [];
+    for(let i=0; i<otherCubeAmt; i++){otherCubes.push(pseudoCube.clone());}
     delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
       pseudoCube.visible = true;
-      pseudoCube.tween(Globals.BEAT_DUR*loadingCircAmt*8).onUpdate = event => {
+      pseudoCube.tween(Globals.BEAT_DUR*loadingCircAmt*12).onUpdate = event => {
         let ease = n => n>0.5?1:Math.sin(n*TAU-PI/2)*.5+.5;
         let t = event.factor;
         let i_t = ~~(t*16), f_t = (t*16)%1;
@@ -94,6 +97,19 @@ canvas.addEventListener('fullscreenchange', ()=>{
         }
       };
     });
+    delay(Globals.BEAT_DUR*loadingCircAmt*(4+4), _=>{
+      for(let i=0; i<otherCubeAmt; i++) {
+        let x = i%5, y = ~~(i/5);
+        otherCubes[i].strokeColor = Globals.palette[2];
+        otherCubes[i].visible = !(x==2 && y==1);
+        let off = (new Point(x+(y%2==0?0:0.5)-2.5, y-1)).multiply(view.size.height/2);
+        otherCubes[i].tween(Globals.BEAT_DUR*loadingCircAmt*8).onUpdate = event => {
+          for(let j=0; j<6; j++){
+            otherCubes[i].segments[j].point = pseudoCube.segments[j].point.add(off);
+          }
+        };
+      }
+    });
 
     foregroundLayer.activate();
     let typo = new PointText({
@@ -106,8 +122,8 @@ canvas.addEventListener('fullscreenchange', ()=>{
       applyMatrix: false
     });
     let scroller = [
-      "¡Hola todos!", "Soy CIOSAI de Taiwán", "no puedo viajar a allá", "¡pero yo puedo hacer demo!",
-      "normalmente escribo glsl", "esta vez hicelo con paper.js", "la fuente llama Kaukhia", "¡divertirse la party!"
+      "¡Hola todos!", "Ta̍k ke hó!", "Soy CIOSAI de Taiwán", "no puedo viajar a allá", 
+      "¡pero yo puedo hacer demo!", "Hicelo con paper.js", "La fuente llama Kaukhia", "¡Divertirse la party!"
     ];
     delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
       for(let i=0; i<8; i++){
