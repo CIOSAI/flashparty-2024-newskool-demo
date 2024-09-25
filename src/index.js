@@ -180,7 +180,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
       bee.fillColor = Globals.palette[1+(~~(Math.sin(i*66.463)*2+1))%3];
       beehive.push(bee);
     }
-    delay(Globals.BEAT_DUR*loadingCircAmt*16 *0, _=>{
+    delay(Globals.BEAT_DUR*loadingCircAmt*16, _=>{
       let noiseMap = (p, t) => {
         let s = n => Math.sin(n*TAU)*.5+.5;
         let acc = 0;
@@ -207,7 +207,19 @@ canvas.addEventListener('fullscreenchange', ()=>{
       }
     });
 
-
+    delay(Globals.BEAT_DUR*loadingCircAmt*24, _=>{
+      for(let i=0; i<loadingCircAmt; i++){
+        loadingCircs[i].visible = true;
+        loadingCircs[i].scaling = 1;
+        loadingCircs[i].tween(Globals.BEAT_DUR*loadingCircAmt*4).onUpdate = event=>{
+          let off = (new Point(1,0)).rotate(i*360/20 + event.factor*360);
+          let phase = event.factor*5+i*3/5;
+          off = off.multiply( Math.sign(Math.sin(phase*TAU)) * Math.sin(Math.abs(Math.sin(phase*TAU)) * PI/2) );
+          off = off.multiply(view.size.height/3);
+          loadingCircs[i].position = view.center.add(off);
+        };
+      }
+    });
     //, "Hicelo con paper.js", "La fuente llama Kaukhia"
 
     view.draw();
