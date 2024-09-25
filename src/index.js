@@ -151,7 +151,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
       "¡pero yo puedo hacer demo!", "¡Divertirse la party!"
     ];
     delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
-      for(let i=0; i<8; i++){
+      for(let i=0; i<6; i++){
         delay(Globals.BEAT_DUR*20*i, _=>{
           typo.content = scroller[i];
           typo.tween({
@@ -163,6 +163,42 @@ canvas.addEventListener('fullscreenchange', ()=>{
             duration: Globals.BEAT_DUR*20
           });
         });
+      }
+    });
+
+    let beeAmt = 160;
+    let beehive = [];
+    for(let i=0; i<beeAmt; i++) {
+      let x = i%16, y = ~~(i/16);
+      let bee = new Path.RegularPolygon(
+        view.center.add( (new Point(x+(y%2==0?0:0.5)-8, (y-4.5)*Math.sqrt(3)/2)).multiply(view.size.height/8) ),
+        6, view.size.height/16
+      );
+      bee.applyMatrix = false;
+      bee.visible = false;
+      bee.scaling = 0.0001;
+      bee.fillColor = Globals.palette[1+(~~(Math.sin(i*66.463)*2+1))%3];
+      beehive.push(bee);
+    }
+    delay(Globals.BEAT_DUR*loadingCircAmt*16, _=>{
+      let noiseMap = (p, t) => {
+        let s = n => Math.sin(n*TAU)*.5+.5;
+        let acc = 0;
+        acc += s(p.x*0.01+t*4);
+        acc += s(p.x*s((p.y-t)*0.033)*0.05);
+
+        let ease = n => 1-Math.sqrt(n);
+        let t_offset = ~~(s(p.x*.01+s(s(p.x*.01)+p.y*4))*5);
+        let f_t = (t*loadingCircAmt*8/5 + t_offset/5)%1;
+
+        acc += ease(f_t);
+        return acc/3;
+      };
+      for(let i=0; i<beeAmt; i++) {
+        beehive[i].visible = true;
+        beehive[i].tween(Globals.BEAT_DUR*loadingCircAmt*8).onUpdate = event=>{
+          beehive[i].scaling = Math.max(0.0001,noiseMap(beehive[i].position, event.factor));
+        };
       }
     });
     //, "Hicelo con paper.js", "La fuente llama Kaukhia"
