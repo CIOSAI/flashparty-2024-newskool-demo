@@ -110,6 +110,31 @@ canvas.addEventListener('fullscreenchange', ()=>{
         };
       }
     });
+    delay(Globals.BEAT_DUR*loadingCircAmt*12, _=>{
+      pseudoCube.tween(Globals.BEAT_DUR*loadingCircAmt*4).onUpdate = event => {
+        pseudoCube.rotate(event.factor*30, view.center);
+      };
+      for(let i=0; i<otherCubeAmt; i++) {
+        let x = i%5, y = ~~(i/5);
+        otherCubes[i].strokeColor = Globals.palette[2];
+        otherCubes[i].closed = false;
+        otherCubes[i].visible = !(x==2 && y==1);
+        let off = (new Point(x+(y%2==0?0:0.5)-2.5, y-1)).multiply(view.size.height/2);
+        otherCubes[i].tween(Globals.BEAT_DUR*loadingCircAmt*4).onUpdate = event => {
+          for(let j=0; j<6; j++){
+            otherCubes[i].segments[j].point = view.center.add(off).add(
+              (new Point((j-3)*2, Math.sin(i*2.0+j*0.8+event.factor*30.0))).rotate(30).multiply(view.size.height/16)
+            );
+          }
+        };
+      }
+    });
+    delay(Globals.BEAT_DUR*loadingCircAmt*16, _=>{
+      pseudoCube.visible = false;
+      for(let i=0; i<otherCubeAmt; i++) {
+        otherCubes[i].visible = false;
+      }
+    });
 
     foregroundLayer.activate();
     let typo = new PointText({
@@ -123,7 +148,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
     });
     let scroller = [
       "¡Hola todos!", "Ta̍k ke hó!", "Soy CIOSAI de Taiwán", "no puedo viajar a allá", 
-      "¡pero yo puedo hacer demo!", "Hicelo con paper.js", "La fuente llama Kaukhia", "¡Divertirse la party!"
+      "¡pero yo puedo hacer demo!", "¡Divertirse la party!"
     ];
     delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
       for(let i=0; i<8; i++){
@@ -140,6 +165,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
         });
       }
     });
+    //, "Hicelo con paper.js", "La fuente llama Kaukhia"
 
     view.draw();
 	}
