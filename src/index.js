@@ -76,7 +76,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
     for(let i=0; i<otherCubeAmt; i++){otherCubes.push(pseudoCube.clone());}
     delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
       pseudoCube.visible = true;
-      pseudoCube.tween(Globals.BEAT_DUR*loadingCircAmt*12).onUpdate = event => {
+      pseudoCube.tween(Globals.BEAT_DUR*loadingCircAmt*8).onUpdate = event => {
         let ease = n => n>0.5?1:Math.sin(n*TAU-PI/2)*.5+.5;
         let t = event.factor;
         let i_t = ~~(t*16), f_t = (t*16)%1;
@@ -103,7 +103,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
         otherCubes[i].strokeColor = Globals.palette[2];
         otherCubes[i].visible = !(x==2 && y==1);
         let off = (new Point(x+(y%2==0?0:0.5)-2.5, y-1)).multiply(view.size.height/2);
-        otherCubes[i].tween(Globals.BEAT_DUR*loadingCircAmt*8).onUpdate = event => {
+        otherCubes[i].tween(Globals.BEAT_DUR*loadingCircAmt*4).onUpdate = event => {
           for(let j=0; j<6; j++){
             otherCubes[i].segments[j].point = pseudoCube.segments[j].point.add(off);
           }
