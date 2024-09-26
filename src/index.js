@@ -11,6 +11,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
     background.fillColor = Globals.palette[0];
 
     let foregroundLayer = new Layer();
+    let layer2 = new Layer();
 
     let loadingCircAmt = 10;
     let loadingCircs = [];
@@ -57,7 +58,6 @@ canvas.addEventListener('fullscreenchange', ()=>{
       }
     });
 
-    let layer2 = new Layer();
     let pseudoCube = new Path.RegularPolygon(view.center, 6, view.size.height/8);
     pseudoCube.strokeColor = Globals.palette[3];
     pseudoCube.strokeWidth = view.size.height/96;
@@ -198,11 +198,11 @@ canvas.addEventListener('fullscreenchange', ()=>{
       }
     });
 
-    delay(Globals.BEAT_DUR*loadingCircAmt*24 /3, _=>{
+    delay(Globals.BEAT_DUR*loadingCircAmt*24, _=>{
       for(let i=0; i<loadingCircAmt; i++){
         loadingCircs[i].visible = true;
         loadingCircs[i].scaling = 1;
-        loadingCircs[i].tween(Globals.BEAT_DUR*loadingCircAmt*4).onUpdate = event=>{
+        loadingCircs[i].tween(Globals.BEAT_DUR*loadingCircAmt*8).onUpdate = event=>{
           let off = (new Point(1,0)).rotate(i*360/20 + event.factor*360);
           let phase = event.factor*5+i*3/5;
           off = off.multiply( Math.sign(Math.sin(phase*TAU)) * Math.sin(Math.abs(Math.sin(phase*TAU)) * PI/2) );
@@ -211,7 +211,15 @@ canvas.addEventListener('fullscreenchange', ()=>{
         };
       }
     });
-    delay(Globals.BEAT_DUR*loadingCircAmt*24 /3, _=>{
+    delay(Globals.BEAT_DUR*loadingCircAmt*24, _=>{
+      for(let i=0; i<loadingCircAmt * 8; i++){
+        delay(Globals.BEAT_DUR*i, _=>{
+          background.fillColor = Globals.palette[i%2?3:0];
+          for(let circ of loadingCircs) {circ.fillColor = Globals.palette[i%2?0:3];}
+        });
+      }
+    });
+    delay(Globals.BEAT_DUR*loadingCircAmt*24, _=>{
       typo.fillColor = null;
       typo.strokeColor = Globals.palette[0];
       typo.strokeWidth = view.size.height/360;
@@ -226,12 +234,36 @@ canvas.addEventListener('fullscreenchange', ()=>{
         typo.visible = false;
       });
     });
-    delay(Globals.BEAT_DUR*loadingCircAmt*24 /3, _=>{
-      for(let i=0; i<loadingCircAmt * 8; i++){
-        delay(Globals.BEAT_DUR*i, _=>{
-          background.fillColor = Globals.palette[i%2?3:0];
-          for(let circ of loadingCircs) {circ.fillColor = Globals.palette[i%2?0:3];}
-        });
+
+    foregroundLayer.activate();
+    let greetTypos = [];
+    let greetz = [
+      "mocoo", "wrighter", "yx", "jay", "goose", "OhLi",
+      "cpdt", "alkama", "evvvvil", "cmdr homer", "med", "slerpy", "limp ninja",
+      "viktor", "shhra", "raccoon violet", "sp4ghet", "NuSan", "0b5vr", "totetmatt",
+      "luna", "poobrain", "still", "Resistance", "psenough", "kb", "darya", "desire"
+    ];
+    let margin = 24*8;
+    for(let i=0; i<greetz.length; i++){
+      let greet = typo.clone();
+      greet.fontSize = 24;
+      greet.point = new Point(-margin,(Math.sin(i*14.833)*0.3+0.5)*view.size.height);
+      greet.content = greetz[i];
+      greet.visible = false;
+      greetTypos.push(greet);
+    }
+    delay(Globals.BEAT_DUR*loadingCircAmt*24, _=>{
+      for(let i=0; i<greetTypos.length; i++){
+        greetTypos[i].visible = true;
+        greetTypos[i].tween(Globals.BEAT_DUR*loadingCircAmt*8).onUpdate = event => {
+          let t = (Math.sin(i*46.861)*0.5+0.5 + event.factor)%1;
+          t = (Math.sin(t*PI-PI/2))*0.5+0.5;
+          t = (Math.sin(t*PI-PI/2))*0.5+0.5;
+          let a = -margin, b = view.size.width+margin;
+          let n = a+(b-a)*t;
+          greetTypos[i].point.x = n;
+          greetTypos[i].scaling = Math.max(0.0001, Math.sin((t-0.5)*2*PI/2+PI/2));
+        };
       }
     });
 
