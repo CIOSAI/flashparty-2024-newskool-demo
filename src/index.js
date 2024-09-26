@@ -1,12 +1,13 @@
 window.onload = function() {
 	paper.setup('myCanvas');
-  render(paper);
+  initRender(paper);
 }
 
 let canvas = document.querySelector('#myCanvas');
 canvas.addEventListener('fullscreenchange', ()=>{
   with (paper) {
     if (document.fullscreenElement == null) { return; }
+    render(paper);
 
     let background = new Path.Rectangle(new Point(0,0),view.size);
     background.fillColor = Globals.palette[0];
