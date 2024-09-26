@@ -325,6 +325,17 @@ canvas.addEventListener('fullscreenchange', ()=>{
     delay(Globals.BEAT_DUR*loadingCircAmt*(24+4), _=>{
       for(let i=0; i<packedSquares.length; i++){
         packedSquares[i].visible = true;
+        let sq = packedSquares[i].clone({insert: false});
+        let cr = new Path.Circle(packedSquares[i].bounds.center, packedSquares[i].bounds.width/2);
+        packedSquares[i].tween(Globals.BEAT_DUR*loadingCircAmt*4).onUpdate = event => {
+          let repeat = 5;
+          let seed = ~~(event.factor*repeat)*547 + i*664;
+          let t = (event.factor*repeat)%1;
+          t = (t>0.5?1-t:t)*2;
+          t = Math.sin(t*PI-PI/2)*0.5+0.5;
+          if(Math.sin(463.692+seed*876.582)<.5) { t = 0; }
+          packedSquares[i].interpolate(sq, cr, t);
+        };
       }
     });
 
