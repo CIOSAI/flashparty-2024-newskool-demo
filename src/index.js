@@ -7,15 +7,6 @@ canvas.addEventListener('fullscreenchange', ()=>{
   with (paper) {
     if (document.fullscreenElement == null) { return; }
 
-    // kept for reminder
-
-    // let typo = new PointText({
-    //   fillColor: Globals.palette[1],
-    //   fontFamily: 'Kaukhia',
-    //   fontSize: 144,
-    //   content: 'This is the Kaukhia font'
-    // });
-
     let background = new Path.Rectangle(new Point(0,0),view.size);
     background.fillColor = Globals.palette[0];
 
