@@ -327,7 +327,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
         packedSquares[i].visible = true;
         let sq = packedSquares[i].clone({insert: false});
         let cr = new Path.Circle(packedSquares[i].bounds.center, packedSquares[i].bounds.width/2);
-        packedSquares[i].tween(Globals.BEAT_DUR*loadingCircAmt*4).onUpdate = event => {
+        packedSquares[i].tween(Globals.BEAT_DUR*loadingCircAmt*12).onUpdate = event => {
           let repeat = 5;
           let seed = ~~(event.factor*repeat)*547 + i*664;
           let t = (event.factor*repeat)%1;
@@ -337,6 +337,35 @@ canvas.addEventListener('fullscreenchange', ()=>{
           packedSquares[i].interpolate(sq, cr, t);
         };
       }
+    });
+    delay(Globals.BEAT_DUR*loadingCircAmt*(24+8), _=>{
+      for(let i=0; i<greetTypos.length; i++){
+        greetTypos[i].visible = false;
+      }
+      for(let i=0; i<loadingCircAmt; i++){
+        loadingCircs[i].visible = false;
+      }
+    });
+
+    layer2.activate();
+
+    let goodbyeTypo = greetTypos[0].clone();
+    goodbyeTypo.set({
+      fillColor: Globals.palette[0],
+      strokeColor: null,
+      fontSize: 72,
+      point: view.center,
+      visible: false
+    });
+    delay(Globals.BEAT_DUR*loadingCircAmt*32, _=>{
+      goodbyeTypo.visible = true;
+      goodbyeTypo.content = "El papel y el autor, by CIOSAI";
+    });
+    delay(Globals.BEAT_DUR*loadingCircAmt*(32+4), _=>{
+      goodbyeTypo.content = "Hasta el año próximo";
+    });
+    delay(Globals.BEAT_DUR*loadingCircAmt*(32+8), _=>{
+      goodbyeTypo.content = "fin";
     });
 
     view.draw();
