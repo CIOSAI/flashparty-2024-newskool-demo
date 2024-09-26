@@ -236,6 +236,62 @@ canvas.addEventListener('fullscreenchange', ()=>{
     });
 
     foregroundLayer.activate();
+
+    let activeSquares = [];
+    let dim = new Size(16*2,9*2);
+    let maxLen = 6;
+    // randomly generate squares of different sizes and position
+    for(let i=0; i<(dim.width-1)*(dim.height-1)/2; i++){
+      let rand = n => Math.sin(93.153+n*133.561)*0.5+0.5;
+
+      // let l = ~~(rand(i*3)*maxLen)+1, x = ~~(rand(i*300)*(dim.width-l)), y = ~~(rand(i*9000)*(dim.height-l));
+      let x = i%dim.width, y = ~~(i/dim.height);
+      let l = ~~(rand(i)*maxLen)+1;
+      l = Math.min(l, Math.min(dim.width-x, dim.height-y));
+      let rect = new Rectangle(x, y, l, l);
+
+      let hit = false;
+      for(let other of activeSquares){
+        if(rect.intersects(other)){
+          hit = true;
+          break;
+        }
+      }
+
+      if(!hit){
+        activeSquares.push(rect);
+      }
+    }
+    // fill up the rest of the dim with squares of size 1
+    for(let x=0; x<dim.width; x++){
+      for(let y=0; y<dim.height; y++){
+        let rect = new Rectangle(x, y, 1, 1);
+
+        let hit = false;
+        for(let other of activeSquares){
+          if(rect.intersects(other)){
+            hit = true;
+            break;
+          }
+        }
+
+        if(!hit) {
+          activeSquares.push(rect);
+        }
+      }
+    }
+    let packedSquares = [];
+    for(let rect of activeSquares){
+      let path = new Path.Rectangle(
+        rect.point.multiply(view.size.height/dim.height).add(0.5*view.size.height/72), 
+        rect.size.multiply(view.size.height/dim.height).subtract(view.size.height/72)
+      );
+      path.fillColor = null;
+      path.strokeColor = Globals.palette[2];
+      path.visible = false;
+      packedSquares.push(path);
+    }
+
     let greetTypos = [];
     let greetz = [
       "mocoo", "wrighter", "yx", "jay", "goose", "OhLi",
@@ -264,6 +320,11 @@ canvas.addEventListener('fullscreenchange', ()=>{
           greetTypos[i].point.x = n;
           greetTypos[i].scaling = Math.max(0.0001, Math.sin((t-0.5)*2*PI/2+PI/2));
         };
+      }
+    });
+    delay(Globals.BEAT_DUR*loadingCircAmt*(24+4), _=>{
+      for(let i=0; i<packedSquares.length; i++){
+        packedSquares[i].visible = true;
       }
     });
 
