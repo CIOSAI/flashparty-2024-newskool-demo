@@ -296,10 +296,10 @@ canvas.addEventListener('fullscreenchange', ()=>{
 
     let greetTypos = [];
     let greetz = [
-      "mocoo", "wrighter", "yx", "jay", "goose", "OhLi",
+      "mocoo", "wrighter", "yx", "jay", "goose", "OhLi", "Charentenay",
       "cpdt", "alkama", "evvvvil", "cmdr homer", "med", "slerpy", "limp ninja",
       "viktor", "shhra", "raccoon violet", "sp4ghet", "NuSan", "0b5vr", "totetmatt",
-      "luna", "poobrain", "still", "Resistance", "psenough", "kb", "darya", "desire"
+      "catnip", "poobrain", "still", "Resistance", "psenough", "kb", "darya", "desire"
     ];
     let margin = 24*8;
     for(let i=0; i<greetz.length; i++){
