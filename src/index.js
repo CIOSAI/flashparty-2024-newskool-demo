@@ -141,21 +141,21 @@ canvas.addEventListener('fullscreenchange', ()=>{
       "¡Hola todos!", "Ta̍k ke hó!", "Soy CIOSAI de Taiwán", "no puedo viajar a allá", 
       "¡pero yo puedo hacer demo!", "¡Divertirse la party!"
     ];
-    delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
-      for(let i=0; i<6; i++){
-        delay(Globals.BEAT_DUR*20*i, _=>{
-          typo.content = scroller[i];
-          typo.tween({
-            "position.y": 0-36
-          }, {
-            "position.y": view.size.height+36
-          }, {
-            easing: "easeInOutCubic",
-            duration: Globals.BEAT_DUR*20
-          });
-        });
-      }
-    });
+    // delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
+    //   for(let i=0; i<6; i++){
+    //     delay(Globals.BEAT_DUR*20*i, _=>{
+    //       typo.content = scroller[i];
+    //       typo.tween({
+    //         "position.y": 0-36
+    //       }, {
+    //         "position.y": view.size.height+36
+    //       }, {
+    //         easing: "easeInOutCubic",
+    //         duration: Globals.BEAT_DUR*20
+    //       });
+    //     });
+    //   }
+    // });
 
     let beeAmt = 160;
     let beehive = [];
@@ -198,7 +198,7 @@ canvas.addEventListener('fullscreenchange', ()=>{
       }
     });
 
-    delay(Globals.BEAT_DUR*loadingCircAmt*24, _=>{
+    delay(Globals.BEAT_DUR*loadingCircAmt*24 /3, _=>{
       for(let i=0; i<loadingCircAmt; i++){
         loadingCircs[i].visible = true;
         loadingCircs[i].scaling = 1;
@@ -211,7 +211,29 @@ canvas.addEventListener('fullscreenchange', ()=>{
         };
       }
     });
-    //, "Hicelo con paper.js", "La fuente llama Kaukhia"
+    delay(Globals.BEAT_DUR*loadingCircAmt*24 /3, _=>{
+      typo.fillColor = null;
+      typo.strokeColor = Globals.palette[0];
+      typo.strokeWidth = view.size.height/360;
+      typo.position = view.center;
+      delay(0, _=>{
+        typo.content = "Hicelo con paper.js";
+      });
+      delay(Globals.BEAT_DUR*loadingCircAmt*2, _=>{
+        typo.content = "La fuente llama Kaukhia";
+      });
+      delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
+        typo.visible = false;
+      });
+    });
+    delay(Globals.BEAT_DUR*loadingCircAmt*24 /3, _=>{
+      for(let i=0; i<loadingCircAmt * 8; i++){
+        delay(Globals.BEAT_DUR*i, _=>{
+          background.fillColor = Globals.palette[i%2?3:0];
+          for(let circ of loadingCircs) {circ.fillColor = Globals.palette[i%2?0:3];}
+        });
+      }
+    });
 
     view.draw();
 	}
