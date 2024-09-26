@@ -141,21 +141,21 @@ canvas.addEventListener('fullscreenchange', ()=>{
       "¡Hola todos!", "Ta̍k ke hó!", "Soy CIOSAI de Taiwán", "no puedo viajar a allá", 
       "¡pero yo puedo hacer demo!", "¡Divertirse la party!"
     ];
-    // delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
-    //   for(let i=0; i<6; i++){
-    //     delay(Globals.BEAT_DUR*20*i, _=>{
-    //       typo.content = scroller[i];
-    //       typo.tween({
-    //         "position.y": 0-36
-    //       }, {
-    //         "position.y": view.size.height+36
-    //       }, {
-    //         easing: "easeInOutCubic",
-    //         duration: Globals.BEAT_DUR*20
-    //       });
-    //     });
-    //   }
-    // });
+    delay(Globals.BEAT_DUR*loadingCircAmt*4, _=>{
+      for(let i=0; i<6; i++){
+        delay(Globals.BEAT_DUR*20*i, _=>{
+          typo.content = scroller[i];
+          typo.tween({
+            "position.y": 0-36
+          }, {
+            "position.y": view.size.height+36
+          }, {
+            easing: "easeInOutCubic",
+            duration: Globals.BEAT_DUR*20
+          });
+        });
+      }
+    });
 
     let beeAmt = 160;
     let beehive = [];
