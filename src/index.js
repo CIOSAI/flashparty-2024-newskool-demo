@@ -1,5 +1,6 @@
 window.onload = function() {
 	paper.setup('myCanvas');
+  render(paper);
 }
 
 let canvas = document.querySelector('#myCanvas');
